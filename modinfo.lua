@@ -57,7 +57,7 @@ local english = {
     alert_duration_hover = "How long each alert stays visible.",
 
     reminder_interval = "Reminder interval",
-    reminder_interval_hover = "While hunger, sanity, or health stays below its threshold, remind again after this time.",
+    reminder_interval_hover = "While a status stays past its threshold, remind again after this time.",
 }
 
 -- add locale tables here later. missing entries automatically fall back to english.
@@ -160,8 +160,8 @@ local alert_text_options = {
 }
 
 local stat_thresholds = percentage_options()
-local cold_thresholds = temperature_options(10, 20)
-local heat_thresholds = temperature_options(30, 60)
+local cold_thresholds = temperature_options(10, 15)
+local heat_thresholds = temperature_options(55, 60)
 
 configuration_options = {
     {
@@ -236,7 +236,7 @@ configuration_options = {
         label = text("cold_threshold"),
         hover = text("cold_threshold_hover"),
         options = cold_thresholds,
-        default = 15,
+        default = 10,
     },
     {
         name = "cold_color",
@@ -249,7 +249,7 @@ configuration_options = {
         label = text("heat_threshold"),
         hover = text("heat_threshold_hover"),
         options = heat_thresholds,
-        default = 55,
+        default = 60,
     },
     {
         name = "heat_color",

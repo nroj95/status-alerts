@@ -65,6 +65,8 @@ local last_alert_time = {
     hunger = nil,
     sanity = nil,
     health = nil,
+    cold = nil,
+    heat = nil,
 }
 
 local last_immersive_index = {}
@@ -245,37 +247,56 @@ local function check_temperature(player)
         return
     end
 
-    if not triggered.cold and temperature <= config.cold_threshold then
-        local message, immersive_index, immersive_identity =
-            build_alert_message(player, "cold", round(temperature))
+    if temperature <= config.cold_threshold then
+        local now = _G.GetTime()
+        local reminder_due =
+            triggered.cold
+            and last_alert_time.cold ~= nil
+            and now - last_alert_time.cold >= settings.reminder_interval
 
-        if show_alert(player, message, config.cold_color, 2) then
-            triggered.cold = true
+        if not triggered.cold or reminder_due then
+            local message, immersive_index, immersive_identity =
+                build_alert_message(player, "cold", round(temperature))
 
-            if immersive_index then
-                last_immersive_index[immersive_identity] = immersive_index
+            if show_alert(player, message, config.cold_color, 2) then
+                triggered.cold = true
+                last_alert_time.cold = now
+
+                if immersive_index then
+                    last_immersive_index[immersive_identity] = immersive_index
+                end
             end
         end
     elseif triggered.cold and temperature >= config.cold_threshold + 5 then
         triggered.cold = false
+        last_alert_time.cold = nil
     end
 
-    if not triggered.heat and temperature >= config.heat_threshold then
-        local message, immersive_index, immersive_identity =
-            build_alert_message(player, "heat", round(temperature))
+    if temperature >= config.heat_threshold then
+        local now = _G.GetTime()
+        local reminder_due =
+            triggered.heat
+            and last_alert_time.heat ~= nil
+            and now - last_alert_time.heat >= settings.reminder_interval
 
-        if show_alert(player, message, config.heat_color, 2) then
-            triggered.heat = true
+        if not triggered.heat or reminder_due then
+            local message, immersive_index, immersive_identity =
+                build_alert_message(player, "heat", round(temperature))
 
-            if immersive_index then
-                last_immersive_index[immersive_identity] = immersive_index
+            if show_alert(player, message, config.heat_color, 2) then
+                triggered.heat = true
+                last_alert_time.heat = now
+
+                if immersive_index then
+                    last_immersive_index[immersive_identity] = immersive_index
+                end
             end
         end
     elseif triggered.heat and temperature <= config.heat_threshold - 5 then
         triggered.heat = false
+        last_alert_time.heat = nil
     end
 end
-
 local function check_status(player)
     -- health may replace a less important alert already on screen.
     check_stat(player, "health")
