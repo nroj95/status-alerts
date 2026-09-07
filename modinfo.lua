@@ -1,5 +1,5 @@
 local english = {
-    mod_name = "status alerts (dev)",
+    mod_name = "status alerts",
     mod_description = "vanilla-friendly status alerts for hunger, sanity, health, and temperature.\n\ndefaults favor immersive, low-clutter warnings. prefer more precision? switch alert text to values and adjust thresholds, alert duration, and reminders.",
 
     show = "Show",
