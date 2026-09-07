@@ -72,7 +72,7 @@ end
 
 name = text("mod_name")
 description = text("mod_description")
-author = "nroj"
+author = "nroj95"
 version = "0.1.0"
 
 api_version = 10
