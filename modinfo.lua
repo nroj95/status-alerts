@@ -73,7 +73,7 @@ end
 name = text("mod_name")
 description = text("mod_description")
 author = "nroj95"
-version = "0.1.0-dev"
+version = "0.1.1-dev"
 
 api_version = 10
 dst_compatible = true
